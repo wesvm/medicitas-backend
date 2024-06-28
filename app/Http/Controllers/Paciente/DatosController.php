@@ -11,8 +11,8 @@ class DatosController extends Controller
 {
     public function me(Request $request)
     {
-        $pacienteid = Auth::user()->id;
-        $paciente = Paciente::find($pacienteid);
+        $userId = Auth::user()->id;
+        $paciente = Paciente::where('user_id', $userId)->first();
         return response()->json($paciente);
     }
 }

@@ -11,8 +11,8 @@ class DatosController extends Controller
 {
     public function me(Request $request)
     {
-        $adminId = Auth::user()->id;
-        $admin = Administrador::find($adminId);
+        $userId = Auth::user()->id;
+        $admin = Administrador::where('user_id', $userId)->first();
         return response()->json($admin);
     }
 }
