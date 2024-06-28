@@ -7,7 +7,7 @@ use App\Models\Administrador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
+class DatosController extends Controller
 {
     public function me(Request $request)
     {

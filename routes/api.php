@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Admin\DatosController as AdminDatosController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\Paciente\DatosController as PacienteDatosController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -14,9 +18,10 @@ Route::group([
 });
 
 Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
-    Route::get('admin/me', [AdminController::class, 'me']);
+    Route::get('admin/me', [AdminDatosController::class, 'me']);
 });
 
-Route::get('user', function () {
-    return 'hello user!';
-});
+Route::get('paciente/me', [PacienteDatosController::class, 'me']);
+
+Route::post('password/forgot', [ForgotPasswordController::class, 'forgotPassword']);
+Route::post('password/reset', [ForgotPasswordController::class, 'resetPassword']);
