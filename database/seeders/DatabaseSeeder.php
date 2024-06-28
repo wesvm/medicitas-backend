@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Especialidad;
+use App\Models\HorarioAtencion;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
             EspecialidadSeeder::class,
             PacienteSeeder::class,
+            HorarioAtencionSeeder::class,
         ]);
     }
 }
