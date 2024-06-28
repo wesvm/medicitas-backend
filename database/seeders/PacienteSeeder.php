@@ -33,7 +33,7 @@ class PacienteSeeder extends Seeder
         ];
         $tiposSeguro = ['SIS', 'ESSALUD'];
 
-        foreach (range(1, 100) as $index) {
+        foreach (range(1, 10) as $index) {
             $user = User::create([
                 'dni' => $faker->unique()->numerify('########'),
                 'password' => bcrypt('password'),
