@@ -22,7 +22,8 @@ class ForgotPasswordController extends Controller
             'dni' => 'required|string|exists:users,dni',
         ]);
 
-        if ($validator->fails()) return response()->json(['errors' => $validator->errors()], 422);
+        if ($validator->fails())
+            return response()->json(['errors' => $validator->errors()], 422);
 
         $user = User::where('dni', $request->dni)->first();
         $token = Str::uuid();
@@ -47,7 +48,7 @@ class ForgotPasswordController extends Controller
             }
         );
 
-        return response()->json(['message' => 'Password reset link sent to your email.']);
+        return response()->json(['message' => 'Token enviado a su correo']);
     }
 
     public function resetPassword(Request $request)
@@ -60,14 +61,14 @@ class ForgotPasswordController extends Controller
         if ($validator->fails()) return response()->json(['errors' => $validator->errors()], 422);
 
         $passwordReset = Token::where('token', $request->token)->first();
-        if (!$passwordReset) return response()->json(['message' => 'Invalid token.'], 400);
+        if (!$passwordReset) return response()->json(['message' => 'Token invalido'], 400);
 
         if (
             $passwordReset->revoked || $passwordReset->expired ||
             $passwordReset->expires_at->isPast()
         ) {
             $passwordReset->update(['revoked' => true, 'expired' => true]);
-            return response()->json(['message' => 'Token has expired or is invalid.'], 400);
+            return response()->json(['message' => 'El token expiro o es invalido'], 400);
         }
 
         $user = User::find($passwordReset->user_id);
@@ -76,7 +77,7 @@ class ForgotPasswordController extends Controller
 
         $passwordReset->delete();
 
-        return response()->json(['message' => 'Password has been reset.']);
+        return response()->json(['message' => 'La contraseña ha sido actualizada']);
     }
 
     private function getUserDataByRole($user)

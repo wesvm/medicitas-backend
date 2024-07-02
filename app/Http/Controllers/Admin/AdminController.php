@@ -3,39 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RegistrarEspecialistaRequest;
+use App\Http\Resources\EspecialistaResource;
 use App\Models\Especialista;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    public function registrarEspecialista(Request $request)
+    public function registrarEspecialista(RegistrarEspecialistaRequest $request)
     {
         try {
 
             DB::beginTransaction();
-
-            $validator = Validator::make($request->all(), [
-                'dni' => 'required|string|max:20|unique:users',
-                'password' => 'required|string|min:3',
-                'email' => 'required|string|max:50|unique:users',
-
-                'nombres' => 'required|string|max:50',
-                'apellidos' => 'required|string|max:50',
-                'telefono' => 'string|max:20',
-                'especialidad_id' => 'required|integer|exists:especialidades,id',
-                'horario_atencion_id' => 'required|integer|exists:horario_atencion,id',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'message' => 'Verifica los campos.',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
 
             $user = User::create([
                 'dni' => $request->dni,
@@ -66,8 +47,34 @@ class AdminController extends Controller
             return response()->json(['message' => 'Especialista registrado!'], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
             return response()->json(['message' => 'Ocurrió un error al registrar el especialista. Por favor, intenta nuevamente más tarde.'], 400);
         }
+    }
+
+    public function obtenerEspecialistas()
+    {
+        $especialistas = User::porRolActivo('especialista')->with('especialista.especialidad')->get();
+        return response()->json(EspecialistaResource::collection($especialistas));
+    }
+
+    public function activarEspecialista($dni)
+    {
+        $user = User::where('dni', $dni)->firstOrFail();
+        $user->activar();
+        return response()->json(['message' => 'Especialista activado correctamente.']);
+    }
+
+    public function desactivarEspecialista($dni)
+    {
+        $user = User::where('dni', $dni)->firstOrFail();
+        $user->desactivar();
+        return response()->json(['message' => 'Especialista desactivado correctamente.']);
+    }
+
+    public function eliminarEspecialista($dni)
+    {
+        $user = User::where('dni', $dni)->firstOrFail();
+        $user->delete();
+        return response()->json(['message' => 'Especialista eliminado.']);
     }
 }

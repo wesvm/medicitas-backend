@@ -16,10 +16,4 @@ class DatosController extends Controller
         $paciente = Paciente::where('user_id', $userId)->first();
         return response()->json($paciente);
     }
-
-    public function obtenerPacientes()
-    {
-        $pacientes = Paciente::all();
-        return response()->json($pacientes);
-    }
 }
