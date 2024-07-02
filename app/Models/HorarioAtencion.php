@@ -14,7 +14,11 @@ class HorarioAtencion extends Model
     protected $fillable = [
         'hora_inicio',
         'hora_fin',
-        'estado',
+        'estado'
+    ];
+
+    protected $hidden = [
+        'estado'
     ];
 
     public function especialistas()

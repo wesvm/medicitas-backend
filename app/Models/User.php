@@ -16,12 +16,40 @@ class User extends Authenticatable implements JWTSubject
         'dni',
         'password',
         'email',
-        'rol'
+        'rol',
+        'estado'
     ];
+
+    public function scopePorRolActivo($query, $rol)
+    {
+        return $query->where('rol', $rol)->where('estado', true);
+    }
+
+    public function desactivar()
+    {
+        $this->estado = false;
+        $this->save();
+    }
+
+    public function activar()
+    {
+        $this->estado = true;
+        $this->save();
+    }
 
     public function admin()
     {
         return $this->hasOne(Administrador::class);
+    }
+
+    public function especialista()
+    {
+        return $this->hasOne(Especialista::class);
+    }
+
+    public function paciente()
+    {
+        return $this->hasOne(Paciente::class);
     }
 
     public function getJWTIdentifier()
@@ -36,6 +64,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $hidden = [
         'password',
+        'estado',
         'remember_token',
     ];
 

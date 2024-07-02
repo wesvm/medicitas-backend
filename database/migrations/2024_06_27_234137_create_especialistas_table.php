@@ -17,8 +17,14 @@ return new class extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('telefono')->nullable();
-            $table->foreignId('horario_atencion_id')->constrained('horario_atencion');
-            $table->foreignId('especialidad_id')->constrained('especialidades');
+            $table->foreignId('horario_atencion_id')
+                ->nullable()
+                ->constrained('horario_atencion')
+                ->nullOnDelete();
+            $table->foreignId('especialidad_id')
+                ->nullable()
+                ->constrained('especialidades')
+                ->nullOnDelete();
             $table->timestamps();
         });
     }

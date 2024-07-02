@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->boolean('estado');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }
