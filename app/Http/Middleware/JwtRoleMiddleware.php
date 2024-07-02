@@ -18,7 +18,7 @@ class JwtRoleMiddleware
     {
         $user = Auth::user();
         if (!$user || !in_array($user->rol, $roles)) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $next($request);
