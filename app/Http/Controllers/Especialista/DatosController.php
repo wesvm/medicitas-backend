@@ -15,10 +15,4 @@ class DatosController extends Controller
         $especialista = Especialista::where('user_id', $userId)->first();
         return response()->json($especialista);
     }
-
-    public function obtenerEspecialistas()
-    {
-        $especialistas = Especialista::all();
-        return response()->json($especialistas);
-    }
 }
