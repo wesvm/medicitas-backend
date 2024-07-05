@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pacientes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->bigInteger('user_id')->unsigned()->unique();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nombres');
             $table->string('apellidos');
             $table->integer('edad');

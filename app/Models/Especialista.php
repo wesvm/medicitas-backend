@@ -20,6 +20,8 @@ class Especialista extends Model
         'horario_atencion_id',
     ];
 
+    protected $primaryKey = 'user_id';
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -33,5 +35,10 @@ class Especialista extends Model
     public function horarioAtencion()
     {
         return $this->belongsTo(HorarioAtencion::class);
+    }
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class, 'especialista_id', 'user_id');
     }
 }

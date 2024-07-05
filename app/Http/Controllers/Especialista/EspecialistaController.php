@@ -66,23 +66,26 @@ class EspecialistaController extends Controller
         return response()->json(PacienteResource::collection($pacientes));
     }
 
-    public function activarPaciente($dni)
+    public function activarPaciente($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
+        $paciente = Paciente::findOrFail($id);
+        $user = User::where('id', $paciente->user_id);
         $user->activar();
         return response()->json(['message' => 'Paciente activado correctamente.']);
     }
 
-    public function desactivarPaciente($dni)
+    public function desactivarPaciente($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
+        $paciente = Paciente::findOrFail($id);
+        $user = User::where('id', $paciente->user_id);
         $user->desactivar();
         return response()->json(['message' => 'Paciente desactivado correctamente.']);
     }
 
-    public function eliminarPaciente($dni)
+    public function eliminarPaciente($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
+        $paciente = Paciente::findOrFail($id);
+        $user = User::where('id', $paciente->user_id);
         $user->delete();
         return response()->json(['message' => 'Paciente eliminado.']);
     }

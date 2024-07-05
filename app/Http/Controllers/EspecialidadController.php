@@ -11,13 +11,22 @@ class EspecialidadController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:admin')->except('obtenerEspecialidades');
+        $this->middleware('role:admin')->except(
+            'obtenerEspecialidades',
+            'obtenerEspecialidadesConEsp'
+        );
     }
 
     public function obtenerEspecialidades()
     {
         $especialidades = Especialidad::activas()->get();
         return response()->json(EspecialidadResource::collection($especialidades));
+    }
+
+    public function obtenerEspecialidadesConEsp()
+    {
+        $especialidades = Especialidad::activas()->with('especialistas')->get();
+        return response()->json($especialidades);
     }
 
     public function agregarEspecialidad(EspecialidadRequest $request)

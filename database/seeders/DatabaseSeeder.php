@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EspecialidadSeeder::class,
             PacienteSeeder::class,
             HorarioAtencionSeeder::class,
+            EspecialistaSeeder::class,
         ]);
     }
 }

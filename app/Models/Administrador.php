@@ -18,6 +18,8 @@ class Administrador extends Model
         'telefono',
     ];
 
+    protected $primaryKey = 'user_id';
+
     public function user()
     {
         return $this->belongsTo(User::class);

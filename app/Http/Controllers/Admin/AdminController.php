@@ -47,34 +47,37 @@ class AdminController extends Controller
             return response()->json(['message' => 'Especialista registrado!'], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['message' => 'Ocurrió un error al registrar el especialista. Por favor, intenta nuevamente más tarde.'], 400);
+            return response()->json(['message' => 'Ocurrió un error al registrar el especialista. Por favor, intenta nuevamente más tarde.'], 500);
         }
     }
 
     public function obtenerEspecialistas()
     {
-        $especialistas = User::porRolActivo('especialista')->with('especialista.especialidad')->get();
+        $especialistas = User::porRolActivo('especialista')
+            ->with('especialista.especialidad')->get();
         return response()->json(EspecialistaResource::collection($especialistas));
     }
 
-    public function activarEspecialista($dni)
+    public function activarEspecialista($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
+        $especialista = Especialista::findOrFail($id);
+        $user = User::where('id', $especialista->user_id);
         $user->activar();
         return response()->json(['message' => 'Especialista activado correctamente.']);
     }
 
-    public function desactivarEspecialista($dni)
+    public function desactivarEspecialista($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
+        $especialista = Especialista::findOrFail($id);
+        $user = User::where('id', $especialista->user_id);
         $user->desactivar();
         return response()->json(['message' => 'Especialista desactivado correctamente.']);
     }
 
-    public function eliminarEspecialista($dni)
+    public function eliminarEspecialista($id)
     {
-        $user = User::where('dni', $dni)->firstOrFail();
-        $user->delete();
+        $especialista = Especialista::findOrFail($id);
+        User::where('id', $especialista->user_id)->delete();
         return response()->json(['message' => 'Especialista eliminado.']);
     }
 }
