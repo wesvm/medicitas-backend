@@ -17,9 +17,9 @@ class EspecialistaCitasController extends Controller
         $user = Auth::user();
         $citas = Cita::where('especialista_id', $user->id)->get();
 
-        if ($citas->isEmpty()) {
-            return response()->json(['message' => 'Aún ningun paciente registro una cita.'], 404);
-        }
+        // if ($citas->isEmpty()) {
+        //     return response()->json(['message' => 'Aún ningun paciente registro una cita.'], 404);
+        // }
 
         return response()->json($citas);
     }

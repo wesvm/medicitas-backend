@@ -17,9 +17,9 @@ class PacienteCitasController extends Controller
         $user = Auth::user();
         $citas = Cita::where('paciente_id', $user->id)->get();
 
-        if ($citas->isEmpty()) {
-            return response()->json(['message' => 'No tienes citas.'], 404);
-        }
+        // if ($citas->isEmpty()) {
+        //     return response()->json(['message' => 'No tienes citas.'], 404);
+        // }
 
         return response()->json($citas);
     }
