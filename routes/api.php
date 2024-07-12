@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\Admin\DatosController as AdminDatosController;
+use App\Http\Controllers\Admin\ReportesController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\Paciente\DatosController as PacienteDatosController;
@@ -49,6 +50,10 @@ Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
 
         Route::delete('desactivarEspecialidad/{id}', [EspecialidadController::class, 'desactivarEspecialidad']);
         Route::delete('eliminarEspecialidad/{id}', [EspecialidadController::class, 'eliminarEspecialidad']);
+    });
+
+    Route::prefix('reportes')->group(function () {
+        Route::post('conteoCitas', [ReportesController::class, 'obtenerConteoCitas']);
     });
 });
 
