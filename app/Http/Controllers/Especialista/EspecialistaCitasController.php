@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Especialista;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Especialista\EspecialistaCitaDetalleResource;
 use App\Models\Cita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,9 +38,8 @@ class EspecialistaCitasController extends Controller
      */
     public function show(string $id)
     {
-        $user = Auth::user();
-        $cita = Cita::with(['paciente', 'especialista'])->findOrFail($id);
-        return response()->json($cita);
+        $cita = Cita::with(['paciente'])->findOrFail($id);
+        return new EspecialistaCitaDetalleResource($cita);
     }
 
     /**

@@ -18,19 +18,19 @@ class PacienteSeeder extends Seeder
         $faker = Faker::create();
 
         $escuelas = [
-            'Ingenieria de Sistemas e Informatica',
-            'Ingenieria de Minas',
-            'Ingenieria Ambiental',
-            'Ingenieria Agroindustrial',
-            'Ingenieria Pesquera',
-            'Ingenieria Civil',
-            'Derecho',
-            'Medicina',
-            'Administracion',
-            'Contabilidad',
-            'Gestion Publica y Desarrollo Social',
-
+            ['nombre' => 'Ingenieria de Sistemas e Informatica'],
+            ['nombre' => 'Ingenieria de Minas'],
+            ['nombre' => 'Ingenieria Ambiental'],
+            ['nombre' => 'Ingenieria Agroindustrial'],
+            ['nombre' => 'Ingenieria Pesquera'],
+            ['nombre' => 'Ingenieria Civil'],
+            ['nombre' => 'Derecho'],
+            ['nombre' => 'Medicina'],
+            ['nombre' => 'Administracion'],
+            ['nombre' => 'Contabilidad'],
+            ['nombre' => 'Gestion Publica y Desarrollo Social'],
         ];
+
         $tiposSeguro = ['SIS', 'ESSALUD'];
 
         foreach (range(1, 10) as $index) {
@@ -45,6 +45,8 @@ class PacienteSeeder extends Seeder
 
             $esEstudiante = $faker->boolean;
 
+            $escuela = $esEstudiante ? $faker->randomElement($escuelas) : null;
+
             Paciente::create([
                 'user_id' => $user->id,
                 'nombres' => $faker->firstName,
@@ -54,7 +56,7 @@ class PacienteSeeder extends Seeder
                 'lugar_nacimiento' => $faker->city,
                 'domicilio' => $faker->address,
                 'telefono' => $faker->phoneNumber,
-                'escuela_profesional' => $esEstudiante ? $faker->randomElement($escuelas) : null,
+                'escuela_profesional' => $escuela ? $escuela['nombre'] : null,
                 'ocupacion' => $esEstudiante ? null : $faker->jobTitle,
                 'tipo_seguro' => $faker->randomElement($tiposSeguro),
                 'telefono_emergencia' => $faker->phoneNumber,

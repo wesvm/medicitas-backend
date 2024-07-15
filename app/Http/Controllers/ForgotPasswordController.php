@@ -9,6 +9,7 @@ use App\Models\Token;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -55,7 +56,7 @@ class ForgotPasswordController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required|exists:tokens,token',
-            'password' => 'required|string|confirmed|min:6',
+            'password' => 'required|string|confirmed|min:3',
         ]);
 
         if ($validator->fails()) return response()->json(['errors' => $validator->errors()], 422);
@@ -76,6 +77,24 @@ class ForgotPasswordController extends Controller
         $user->save();
 
         $passwordReset->delete();
+
+        return response()->json(['message' => 'La contraseña ha sido actualizada']);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|confirmed|min:3',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = Auth::user();
+
+        $user->password = Hash::make($request->password);
+        $user->save();
 
         return response()->json(['message' => 'La contraseña ha sido actualizada']);
     }

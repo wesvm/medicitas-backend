@@ -25,8 +25,25 @@ class ReportesRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $escuelas = [
+            'Ingenieria de Sistemas e Informatica',
+            'Ingenieria de Minas',
+            'Ingenieria Ambiental',
+            'Ingenieria Agroindustrial',
+            'Ingenieria Pesquera',
+            'Ingenieria Civil',
+            'Derecho',
+            'Medicina',
+            'Administracion',
+            'Contabilidad',
+            'Gestion Publica y Desarrollo Social',
+            'Otro',
+            'All'
+        ];
+
         return [
-            'escuelaProfesional' => 'sometimes|required|string|max:255',
+            'carrera' => 'sometimes|required|string|in:' . implode(',', $escuelas) . '|max:255',
             'fechaInicio' => 'sometimes|required_with:fechaFin|date',
             'fechaFin' => 'sometimes|required_with:fechaInicio|date|after_or_equal:fechaInicio',
             'especialidad' => 'sometimes|required|string|exists:especialidades,nombre'

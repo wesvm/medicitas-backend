@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PacienteSeeder::class,
             HorarioAtencionSeeder::class,
             EspecialistaSeeder::class,
+            CitaSeeder::class
         ]);
     }
 }

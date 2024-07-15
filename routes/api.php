@@ -33,6 +33,7 @@ Route::post('password/reset', [ForgotPasswordController::class, 'resetPassword']
 
 Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
     Route::get('admin/me', [AdminDatosController::class, 'me']);
+    Route::put('admin/update', [AdminDatosController::class, 'update']);
 
     Route::prefix('especialista')->group(function () {
         Route::get('obtenerEspecialistas', [AdminController::class, 'obtenerEspecialistas']);
@@ -61,6 +62,7 @@ Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
 
 Route::group(['middleware' => ['jwt.auth', 'role:especialista,admin']], function () {
     Route::get('especialista/me', [EspecialistaDatosController::class, 'me']);
+    Route::put('especialista/update', [EspecialistaDatosController::class, 'update']);
 
     Route::prefix('paciente')->group(function () {
         Route::get('obtenerPacientes', [EspecialistaController::class, 'obtenerPacientes']);
@@ -78,6 +80,7 @@ Route::group(['middleware' => ['jwt.auth', 'role:especialista,admin']], function
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('paciente/me', [PacienteDatosController::class, 'me']);
+    Route::put('paciente/update', [PacienteDatosController::class, 'update']);
 
     Route::resource('citas', CitasController::class);
 
@@ -86,4 +89,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::get('horarioAtencion/{id}', [HorarioAtencionController::class, 'getHorarioById']);
     Route::get('horarioAtencion/especialista/{id}', [HorarioAtencionController::class, 'getHorarioByEspecialistaId']);
+
+    Route::post('password/changePassword', [ForgotPasswordController::class, 'changePassword']);
 });

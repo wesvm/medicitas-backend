@@ -14,6 +14,7 @@ class ReportesController extends Controller
     {
         $fechaInicio = $request->input('fechaInicio');
         $fechaFin = $request->input('fechaFin');
+        $carrera = $request->input('carrera');
 
         $citasQuery = Cita::query();
 
@@ -22,6 +23,18 @@ class ReportesController extends Controller
         }
         if ($fechaFin) {
             $citasQuery->where('fecha', '<=', Carbon::parse($fechaFin));
+        }
+
+        if ($carrera) {
+            if ($carrera == 'Otro') {
+                $citasQuery->whereHas('paciente', function ($query) {
+                    $query->whereNull('escuela_profesional');
+                });
+            } else {
+                $citasQuery->whereHas('paciente', function ($query) use ($carrera) {
+                    $query->where('escuela_profesional', $carrera);
+                });
+            }
         }
 
         $citas = $citasQuery->with('paciente', 'especialista.especialidad')->get();

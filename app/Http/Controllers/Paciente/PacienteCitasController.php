@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Paciente;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Paciente\PacienteCitaDetalleResource;
 use App\Models\Cita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,7 @@ class PacienteCitasController extends Controller
         if ($cita->paciente_id != $user->id) {
             return response()->json(['error' => 'No tienes permiso para ver esta cita.'], 403);
         }
-        return response()->json($cita);
+        return new PacienteCitaDetalleResource($cita);
     }
 
     /**
