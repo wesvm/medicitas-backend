@@ -20,7 +20,7 @@ class EspecialistaController extends Controller
 
             $user = User::create([
                 'dni' => $request->dni,
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request->dni),
                 'email' => $request->email,
                 'rol' => 'paciente',
             ]);

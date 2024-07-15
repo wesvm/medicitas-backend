@@ -27,7 +27,6 @@ class RegistrarPacienteRequest extends FormRequest
     {
         return [
             'dni' => 'required|string|max:20|unique:users',
-            'password' => 'required|string|min:3',
             'email' => 'required|email|max:50|unique:users',
 
             'nombres' => 'required|string|max:255',
