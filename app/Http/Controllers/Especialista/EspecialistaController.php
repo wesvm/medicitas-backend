@@ -7,6 +7,7 @@ use App\Http\Requests\Especialista\RegistrarPacienteRequest;
 use App\Http\Resources\PacienteResource;
 use App\Models\Paciente;
 use App\Models\User;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,11 +30,15 @@ class EspecialistaController extends Controller
                 throw new \Exception('Error al crear usuario.');
             }
 
+            $fechaNacimiento = new DateTime($request->fecha_nacimiento);
+            $ahora = new DateTime();
+            $edad = $fechaNacimiento->diff($ahora)->y;
+
             $paciente = Paciente::create([
                 'user_id' => $user->id,
                 'nombres' => $request->nombres,
                 'apellidos' => $request->apellidos,
-                'edad' => $request->edad,
+                'edad' => $edad,
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'lugar_nacimiento' => $request->lugar_nacimiento,
                 'domicilio' => $request->domicilio,
