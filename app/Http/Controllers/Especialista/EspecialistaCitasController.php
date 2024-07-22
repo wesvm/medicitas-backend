@@ -38,7 +38,7 @@ class EspecialistaCitasController extends Controller
      */
     public function show(string $id)
     {
-        $cita = Cita::with(['paciente'])->findOrFail($id);
+        $cita = Cita::with(['paciente.user'])->findOrFail($id);
         return new EspecialistaCitaDetalleResource($cita);
     }
 
@@ -47,7 +47,18 @@ class EspecialistaCitasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'estado' => 'required|string|in:pendiente,completado,no asistió',
+        ]);
+
+        $cita = Cita::findOrFail($id);
+        $cita->estado = $validated['estado'];
+        $cita->save();
+
+        return response()->json([
+            'message' => 'Cita actualizada correctamente',
+            'cita' => $cita
+        ], 200);
     }
 
     /**

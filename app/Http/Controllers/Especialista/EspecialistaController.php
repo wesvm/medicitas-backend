@@ -71,6 +71,22 @@ class EspecialistaController extends Controller
         return response()->json(PacienteResource::collection($pacientes));
     }
 
+    public function obtenerPacientesDNI($dni)
+    {
+        $paciente = User::porRolActivo('paciente')
+            ->whereHas('paciente', function ($query) use ($dni) {
+                $query->where('dni', $dni);
+            })
+            ->with('paciente')
+            ->first();
+
+        if (!$paciente) {
+            return response()->json(['message' => 'Paciente no encontrado'], 404);
+        }
+
+        return response()->json(new PacienteResource($paciente));
+    }
+
     public function activarPaciente($id)
     {
         $paciente = Paciente::findOrFail($id);

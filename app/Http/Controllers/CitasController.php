@@ -31,9 +31,16 @@ class CitasController extends Controller
             $data = $request->validated();
             $user = Auth::user();
 
+            $isSpecialist = $user->rol === 'especialista';
+
             $fechaCita = Carbon::parse($data['fecha']);
             $horaCita = Carbon::parse($data['hora']);
             $pacienteId = $user->id;
+
+            if ($isSpecialist) {
+                $pacienteId = $data['paciente_id'];
+            }
+
             $especialistaId = $data['especialista_id'];
 
             $citasPaciente = Cita::where('paciente_id', $pacienteId)
@@ -62,9 +69,11 @@ class CitasController extends Controller
                 ->json(['message' => 'Cita creada exitosamente.', 'cita' => $cita], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['message' => 'Ocurrió un error al registrar la cita. Por favor, intenta nuevamente más tarde.', 'e' => $e], 500);
+            return response()->json(['message' => 'Ocurrió un error al registrar la cita. Por favor, intenta nuevamente más tarde.'], 500);
         }
     }
+
+
 
     /**
      * Display the specified resource.

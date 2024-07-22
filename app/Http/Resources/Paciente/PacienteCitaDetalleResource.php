@@ -16,7 +16,7 @@ class PacienteCitaDetalleResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'user_id' => $this->id,
             'fecha' => $this->fecha,
             'hora' => Carbon::parse($this->hora)->format('H:i'),
             'estado' => $this->estado,

@@ -37,4 +37,9 @@ class Paciente extends Model
     {
         return $this->hasMany(Cita::class, 'paciente_id', 'user_id');
     }
+
+    public function consultas()
+    {
+        return $this->hasMany(Consulta::class, 'paciente_id', 'user_id');
+    }
 }

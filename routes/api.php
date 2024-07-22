@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DatosController as AdminDatosController;
 use App\Http\Controllers\Admin\ReportesController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\Paciente\DatosController as PacienteDatosController;
 use App\Http\Controllers\Especialista\DatosController as EspecialistaDatosController;
@@ -63,9 +64,20 @@ Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
 Route::group(['middleware' => ['jwt.auth', 'role:especialista,admin']], function () {
     Route::get('especialista/me', [EspecialistaDatosController::class, 'me']);
     Route::put('especialista/update', [EspecialistaDatosController::class, 'update']);
+    Route::get('especialista/pacientes', [EspecialistaDatosController::class, 'obtenerPacientes']);
+    Route::get(
+        'especialista/citas/pacientes/{id}',
+        [EspecialistaDatosController::class, 'obtenerCitasPaciente']
+    );
+
+    Route::get(
+        'especialista/consultas/pacientes/{id}',
+        [EspecialistaDatosController::class, 'obtenerConsultasPaciente']
+    );
 
     Route::prefix('paciente')->group(function () {
         Route::get('obtenerPacientes', [EspecialistaController::class, 'obtenerPacientes']);
+        Route::get('obtenerPacientes/{dni}', [EspecialistaController::class, 'obtenerPacientesDNI']);
         Route::post('agregarPaciente', [EspecialistaController::class, 'registrarPaciente']);
         Route::post('activarPaciente/{id}', [EspecialistaController::class, 'activarPaciente']);
 
@@ -83,6 +95,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('paciente/update', [PacienteDatosController::class, 'update']);
 
     Route::resource('citas', CitasController::class);
+    Route::resource('consultas', ConsultasController::class);
 
     Route::resource('paciente/citas', PacienteCitasController::class);
     Route::get('especialidad/obtenerEspecialidadesConEsp', [EspecialidadController::class, 'obtenerEspecialidadesConEsp']);

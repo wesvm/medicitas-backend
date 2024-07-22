@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Especialista;
+namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EspecialistaCitaDetalleResource extends JsonResource
+class ConsultaResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +16,13 @@ class EspecialistaCitaDetalleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'fecha' => $this->fecha,
-            'hora' => Carbon::parse($this->hora)->format('H:i'),
-            'estado' => $this->estado,
-            'motivo' => $this->motivo,
+            'cita_id' => $this->cita_id,
+            'motivo_consulta' => $this->motivo_consulta,
+            'fecha_hora' => $this->fecha_hora,
+            'diagnostico' => $this->diagnostico,
+            'tratamiento' => $this->tratamiento,
+            'observaciones' => $this->observaciones,
+            'proxima_cita' => $this->proxima_cita,
             'paciente' => [
                 'user_id' => $this->paciente->user_id,
                 'dni' => $this->paciente->user->dni,
@@ -37,11 +39,7 @@ class EspecialistaCitaDetalleResource extends JsonResource
                 'tipoSeguro' => $this->paciente->tipo_seguro,
                 'telefonoEmergencia' => $this->paciente->telefono_emergencia,
             ],
+            'especialista_id' => $this->especialista_id,
         ];
-    }
-
-    public function withResponse($request, $response)
-    {
-        $response->setData($this->toArray($request));
     }
 }

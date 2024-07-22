@@ -41,4 +41,9 @@ class Especialista extends Model
     {
         return $this->hasMany(Cita::class, 'especialista_id', 'user_id');
     }
+
+    public function consultas()
+    {
+        return $this->hasMany(Consulta::class, 'especialista_id', 'user_id');
+    }
 }

@@ -30,6 +30,7 @@ class CitasRequest extends FormRequest
             'hora' => 'required|date_format:H:i',
             'motivo' => 'required|string|max:255',
             'especialista_id' => 'required|exists:especialistas,user_id',
+            'paciente_id' => 'sometimes|required|exists:pacientes,user_id'
         ];
     }
 }
