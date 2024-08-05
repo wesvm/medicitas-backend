@@ -75,9 +75,15 @@ Route::group(['middleware' => ['jwt.auth', 'role:especialista,admin']], function
         [EspecialistaDatosController::class, 'obtenerConsultasPaciente']
     );
 
+    Route::get(
+        'especialista/consultas/pacientes/{id}/{cId}',
+        [EspecialistaDatosController::class, 'obtenerConsultaByIdPaciente']
+    );
+
     Route::prefix('paciente')->group(function () {
         Route::get('obtenerPacientes', [EspecialistaController::class, 'obtenerPacientes']);
         Route::get('obtenerPacientes/{dni}', [EspecialistaController::class, 'obtenerPacientesDNI']);
+        Route::get('obtenerPacienteById/{id}', [EspecialistaController::class, 'obtenerPacienteById']);
         Route::post('agregarPaciente', [EspecialistaController::class, 'registrarPaciente']);
         Route::post('activarPaciente/{id}', [EspecialistaController::class, 'activarPaciente']);
 

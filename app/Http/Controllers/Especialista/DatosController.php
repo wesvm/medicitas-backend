@@ -60,4 +60,12 @@ class DatosController extends Controller
         $citas = Consulta::where('paciente_id', $id)->get()->reverse()->values();;
         return response()->json($citas, 200);
     }
+
+    public function obtenerConsultaByIdPaciente($id, $cId)
+    {
+        $consulta = Consulta::where('paciente_id', $id)
+            ->where('cita_id', $cId)
+            ->first();
+        return response()->json($consulta, 200);
+    }
 }

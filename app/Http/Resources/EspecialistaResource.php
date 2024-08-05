@@ -23,6 +23,7 @@ class EspecialistaResource extends JsonResource
             'telefono' => $this->especialista->telefono,
             'horarioAtencionId' => $this->especialista->horario_atencion_id,
             'especialidadId' => $this->especialista->especialidad_id,
+            'especialidad' => $this->especialista->especialidad->nombre
         ];
     }
 }
